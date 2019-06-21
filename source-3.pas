@@ -23,6 +23,28 @@ TYPE
          WRITELN;
       END;
 	END;
+	PROCEDURE Pivote(VAR M:MATRIZ; L:INTEGER);
+		VAR I,J:INTEGER;
+	BEGIN
+		I:=0;   J:=0;
+		FOR I:=1 TO L DO
+			FOR J:=1 TO L DO
+            IF(M[I,I] <> 0) THEN
+				  M[I,J]:= M[I,J] / M[I,I]
+            ELSE
+               M[I,J]:= M[I,J] + 1;
+	END;
+
+	PROCEDURE Ceros(VAR M:MATRIZ; L:INTEGER);
+		VAR I,J,K:INTEGER;
+	BEGIN
+		I:=0;   J:=0;   K:=0;
+		FOR I:=1 TO L DO
+			FOR J:=1 TO L DO
+				IF(I<>J) THEN
+					FOR K:=1 TO L DO
+						M[J,K]:= M[J,K] + M[I,K] * M[J,I] * -1;
+	END;
 VAR OP,N,K,L: INTEGER ;
  	 A: MATRIZ;
 BEGIN
@@ -32,6 +54,7 @@ BEGIN
 
 
 	WRITE('Introduzca longitud de la matriz A[1..20]: ');   READLN(N);
+	{
    FOR K:=1 TO N DO
       FOR L:=1 TO N DO
       BEGIN
@@ -43,6 +66,11 @@ BEGIN
          ELSE
             A[K,L]:= 1;
       END;
+   }
+   FOR K:=1 TO N DO
+      FOR L:=1 TO N DO
+         A[K,L]:= RANDOM(10);
+
 	WHILE OP<>0 DO 
 	BEGIN
 		CLRSCR;
@@ -51,8 +79,8 @@ BEGIN
 		WRITELN('   1. Llena Matriz.');
 		WRITELN('   2. Mostrar Matiz');
 		WRITELN('   3. Colocar 0 en '+#160+'reas inferior y superior de la diagonal principal.');
-		WRITELN('   4. Calcular Promedio Por Columna.');
-		WRITELN('   5. Calcular Promedio Por Fila.');
+		WRITELN('   4. Colocar 1 en la diagonal principal.');
+		WRITELN('   5. Acci'+#162+'n 3 y 4.');
 		WRITELN('   7. Cambiar longitud de matriz.');
 		WRITELN('   0. Salir. ');WRITELN;WRITELN;
 		WRITE('   Ingrese acci'+#162+'n: ');
@@ -61,7 +89,13 @@ BEGIN
 		Case OP of
 			1: LlenarMatriz(A, N);
 			2: MostrarMatriz(A, N);
-
+			3: Ceros(A,N);
+			4: Pivote(A,N);
+			5:
+			BEGIN
+				Pivote(A,N);
+				Ceros(A,N);
+			END;
 			7: 
 			BEGIN	
 				WRITE('Ingresar nueva longitud [1..20, 1..20]: ');
